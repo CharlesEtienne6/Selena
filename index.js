@@ -1,6 +1,5 @@
 //Discord.js
 const Discord = require ('discord.js');
-const config = require("./config.json");
 const bot = new Discord.Client().setMaxListeners(200);
 
 //Images
@@ -28,7 +27,7 @@ db.defaults({Infos_membres : []}).write()
 const prefix = "s!";
 
 //Connexion du bot
-bot.login(config.token)
+bot.login(process.env.TOKEN)
 bot.on("ready", async message => {
 
     let status = ["me faire coder","Mobile Legends","Genshin Impact","être le gémeau de l'ombre","chat avec Karina"]
