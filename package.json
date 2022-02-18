@@ -1,0 +1,13 @@
+{
+    "name": "selena",
+    "version": "1.0.0",
+    "description": "MLBB SN official discord bot",
+    "main": "index.js",
+    "keywords": [],
+    "author": "Ragnarok",
+    "license": "ISC",
+    "dependencies": {
+        "discord.js": "^12.5.3",
+        "lowdb": "^1.0.0"
+    }
+}
