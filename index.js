@@ -26,11 +26,6 @@ db.defaults({Infos_membres : []}).write()
 //Le prefix du bot
 const prefix = "s!";
 
-//Handler
-let content = message.content.split(" ");
-let command = content[0];
-let args = content.slice(1);
-
 //Connexion du bot
 bot.login(process.env.TOKEN)
 bot.on("ready", async message => {
@@ -46,6 +41,11 @@ bot.on("ready", async message => {
 
 //commands
 bot.on("message", async message => {
+    
+    let content = message.content.split(" ");
+    let command = content[0];
+    let args = content.slice(1);
+
     if(message.content.startsWith(prefix)) {
         try{
             let commandFile = require(`./commands/${command.slice(prefix.length)}.js`)
