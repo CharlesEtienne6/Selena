@@ -1,4 +1,3 @@
-const Discord = require ('discord.js');
 module.exports.execute = ('message', async(bot, message, args) => {
         let msg = await message.channel.send("Ping en cours...")
 
