@@ -39,6 +39,24 @@ bot.on("ready", async message => {
     console.log("Je suis prête !")
 })
 
+//commands
+bot.on("message", async message => {
+    
+    let content = message.content.split(" ");
+    let command = content[0];
+    let args = content.slice(1);
+
+    if(message.content.startsWith(prefix)) {
+        try{
+            let commandFile = require(`./commands/${command.slice(prefix.length)}.js`)
+            commandFile.execute(bot, message, args);
+        } catch (e){
+            console.warn(`Erreur avec le handler ${e}`);
+            return;
+        }
+    }
+})
+
 //Expérience
 bot.on("message", async message => {
     let msgauthorid = message.member.user.id
@@ -308,7 +326,7 @@ bot.on("message", message =>{
 })
 
 //!ping
-bot.on("message", async message =>{
+/*bot.on("message", async message =>{
     if(message.content === prefix + "ping"){
         let msg = await message.channel.send("Ping en cours...")
 
@@ -318,7 +336,7 @@ bot.on("message", async message =>{
         message.delete()
         message.channel.send(embed)
     }
-})
+})*/
 
 //!avatar
 bot.on('message', message =>{
