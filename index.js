@@ -45,10 +45,10 @@ bot.on("message", async message => {
     let content = message.content.split(" ");
     let command = content[0];
     let args = content.slice(1);
+    let commandFile = require(`./commands/${command.slice(prefix.length)}.js`)
 
-    if(message.content.startsWith(prefix)) {
+    if(message.content.startsWith(prefix + commandFile)) {
         try{
-            let commandFile = require(`./commands/${command.slice(prefix.length)}.js`)
             commandFile.execute(bot, message, args);
         } catch (e){
             console.warn(`Erreur avec le handler ${e}`);
