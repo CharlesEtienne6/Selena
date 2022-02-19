@@ -45,10 +45,10 @@ bot.on("message", async message => {
     let content = message.content.split(" ");
     let command = content[0];
     let args = content.slice(1);
-    let commandFile = require(`./commands/${command.slice(prefix.length)}.js`)
 
-    if(message.content.startsWith(commandFile)) {
+    if(message.content.startsWith(prefix)) {
         try{
+            let commandFile = require(`./commands/${command.slice(prefix.length)}.js`)
             commandFile.execute(bot, message, args);
         } catch (e){
             console.warn(`Erreur avec le handler ${e}`);
@@ -56,7 +56,6 @@ bot.on("message", async message => {
         }
     }
 })
-
 //!help clear
 bot.on("message", message =>{
     if(message.content === prefix + "help clear"){
