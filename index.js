@@ -43,7 +43,7 @@ bot.on("ready", async message => {
 bot.on("message", async message => {
     
     let content = message.content.split(" ");
-    let command = content[1];
+    let command = content[0];
     let args = content.slice(1);
 
     if(message.content.startsWith(prefix)) {
