@@ -1,4 +1,22 @@
 const Discord = require ('discord.js');
+
+//Lowdb
+const low = require ("lowdb");
+const FileSync = require ("lowdb/adapters/FileSync");
+const { time } = require("console");
+const { receiveMessageOnPort } = require("worker_threads");
+const { userInfo } = require("os");
+const { listeners } = require("process");
+const { setTimeout } = require("timers");
+const { fstat } = require('fs');
+
+//Lowdb
+const dbdb = new FileSync("db.json");
+const db = low(dbdb);
+
+db.defaults({Infos_membres : []}).write()
+
+
 module.exports.execute = ('message', async(bot, message, args) => {
     let msgauthorid = message.member.user.id
 
