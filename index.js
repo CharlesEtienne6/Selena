@@ -39,19 +39,284 @@ bot.on("ready", async message => {
     console.log("Je suis prête !")
 })
 
-//commands
+//Expérience
 bot.on("message", async message => {
-    
-    const command = message.content.slice(prefix.length);
+    let msgauthorid = message.member.user.id
 
-    if(message.content.startsWith(prefix)) {
-        try{
-            let commandFile = require(`./commands/${command}.js`)
-            commandFile.execute(bot, message, command);
-        } catch (e){
-            console.warn(`Erreur avec le handler ${e}`);
-            return;
+    if (message.author.bot) return
+    if (!db.get("Infos_membres").find({ id: msgauthorid }).value()) {
+        db.get("Infos_membres").push({ id: msgauthorid, xp: 1, niveau: 1, xp_p_niveau: 100 }).write()
+        console.log("ça marche")
+    } else {
+        let userxpdb = db.get("Infos_membres").filter({ id: msgauthorid }).find("xp").value()
+        let userxp = Object.values(userxpdb)
+        let userniveaudb = db.get("Infos_membres").filter({ id: msgauthorid }).find("niveau").value()
+        let userniveau = Object.values(userniveaudb)
+        let userpniveaudb = db.get("Infos_membres").filter({ id: msgauthorid }).find("xp_p_niveau").value()
+        let userpniveau = Object.values(userpniveaudb)
+
+        let chiffre = [3, 4, 5, 6, 7]
+        let index = Math.floor(Math.random() * (chiffre.length - 1) + 1)
+
+        db.get("Infos_membres").find({ id: msgauthorid }).assign({ id: msgauthorid, xp: userxp[1] += chiffre[index] }).write()
+
+        if (userxp[1] >= userpniveau[3]) {
+            let lvlup = bot.guilds.cache.get("818459519646564373").channels.cache.get("819643226629210152")
+            db.get("Infos_membres").find({ id: msgauthorid }).assign({ id: msgauthorid, xp: userxp[1] = 1 }).write()
+            db.get("Infos_membres").find({ id: msgauthorid }).assign({ id: msgauthorid, niveau: userniveau[2] += 1 }).write()
+            db.get("Infos_membres").find({ id: msgauthorid }).assign({ id: msgauthorid, xp_p_niveau: userpniveau[3] += 150 }).write()
+            lvlup.send(`GG ${message.author} vous venez de passer au niveau ${userniveau[2]}`)
         }
+        if(message.content == prefix + "rank") {
+            let lvl = userniveau[2];
+            let exp = userxp[1];
+            let lvlsup = userpniveau[3];
+
+            let embed = new Discord.MessageEmbed()
+            .setAuthor("RANKCARD")
+            .setColor("#a81d16")
+            .setDescription(`LVL: ${lvl}     XP: ${exp}     LVLSUP: ${lvlsup}`)
+            .setImage(message.author.displayAvatarURL({ format: 'png', dynamic: true }))
+            .setTimestamp()
+            .setTitle(message.author.username)
+            .setFooter("MLBB", "https://i.pinimg.com/564x/36/d7/b9/36d7b9067fe47db3d23090abbe6c22aa.jpg")
+            message.channel.send(embed)
+        }else if(message.content.startsWith(prefix + "rank" + "<@" + + ">")){
+
+        }
+
+        /*if (message.content === prefix + "rank") {
+            let lvl = userniveau[2];
+            let exp = userxp[1];
+            let lvlsup = userpniveau[3];
+
+            const rankcard = new Canvacord.Rank()
+                .setAvatar(message.author.displayAvatarURL({ format: 'png', dynamic: true }))
+                .setCurrentXP(exp)
+                .setRequiredXP(lvlsup)
+                .setStatus(message.author.presence.status)
+                .setLevel(lvl)
+                .setRank(1, 'RANK', false)
+                .setProgressBar("#a81d16", "COLOR")
+                .setOverlay("#000000")
+                .setUsername(message.author.username)
+                .setDiscriminator(message.author.discriminator)
+                .setBackground("IMAGE", "https://animemotivation.com/wp-content/uploads/2019/04/kantai-collection-hot-anime-girl-e1564915998532.jpg")
+            rankcard.build()
+                .then(data => {
+                    const atta = new Discord.MessageAttachment(data, "rank.png")
+                    message.channel.send(atta)
+                })
+        } else if (message.content.startsWith(prefix + "rank")) {
+            let lvl = userniveau[2];
+            let exp = userxp[1];
+            let lvlsup = userpniveau[3];
+
+            const Canvacord = require('canvacord')
+            const rankcard = new Canvacord.Rank()
+                .setAvatar(message.mentions.users.first().avatarURL({ format: 'png', dynamic: true }))
+                .setCurrentXP(exp)
+                .setRequiredXP(lvlsup)
+                .setStatus(message.mentions.users.first().presence.status)
+                .setLevel(lvl)
+                .setRank(1, 'RANK', false)
+                .setProgressBar("#a81d16", "COLOR")
+                .setOverlay("#000000")
+                .setUsername(message.mentions.users.first().username)
+                .setDiscriminator(message.mentions.users.first().discriminator)
+                .setBackground("COLOR", "#808080")
+            rankcard.build()
+                .then(data => {
+                    const atta = new Discord.MessageAttachment(data, "rank.png")
+                    message.channel.send(atta)
+                })
+        }*/
+    }
+})
+
+//!help
+bot.on("message", message =>{
+    if(message.content === prefix + "help"){
+        let embed = new Discord.MessageEmbed()
+        .setTitle("__La liste des commandes du bot__")
+        .setColor("#22DD56")
+        .setDescription(`Son prefix est :** ${prefix} **\n**__Les commandes publiques sont :__ avatar, ping, say, has, rank, meme**\n**__Les commandes pour le staff sont :__ kick, mute, ban, clear**\n**__Les commandes NSFW (-18) sont :__** hentai, fuck\nAjout sous peu de commandes pour mieux connaître les héros\n**Pour toute information sur une commande faire : **__${prefix} + help + nom de la commande__`)
+        .setImage("https://i.pinimg.com/originals/86/31/e9/8631e9aea3f6e6467e193422bacc2112.jpg")
+        .setFooter("MLBB-SN", "https://i.pinimg.com/564x/36/d7/b9/36d7b9067fe47db3d23090abbe6c22aa.jpg")
+        .setTimestamp()
+        message.channel.send(embed)
+    }
+})
+
+//!help rank
+bot.on("message", message => {
+    if (message.content === prefix + "help rank") {
+        let embed = new Discord.MessageEmbed()
+            .setTitle("__Comment utiliser la commande rank ?__")
+            .setColor("#22DD56")
+            .setDescription(`Affiche une carte montrant votre niveau et votre expérience ainsi que l'expérience nécessaire pour passer au niveau supérieur`)
+            .setImage("https://i.pinimg.com/originals/86/31/e9/8631e9aea3f6e6467e193422bacc2112.jpg")
+            .setFooter("MLBB-SN", "https://i.pinimg.com/564x/36/d7/b9/36d7b9067fe47db3d23090abbe6c22aa.jpg")
+            .setTimestamp()
+        message.channel.send(embed)
+    }
+})
+
+//!help has
+bot.on("message", message => {
+    if (message.content === prefix + "help has") {
+        let embed = new Discord.MessageEmbed()
+            .setTitle("__Comment utiliser la commande has ?__")
+            .setColor("#22DD56")
+            .setDescription(`Donne la liste de tous les utilisateurs possédant le rôle mentionné\n${prefix} + has + @rôle`)
+            .setImage("https://i.pinimg.com/originals/86/31/e9/8631e9aea3f6e6467e193422bacc2112.jpg")
+            .setFooter("MLBB-SN", "https://i.pinimg.com/564x/36/d7/b9/36d7b9067fe47db3d23090abbe6c22aa.jpg")
+            .setTimestamp()
+        message.channel.send(embed)
+    }
+})
+
+//!help avatar
+bot.on("message", message =>{
+    if(message.content === prefix + "help avatar"){
+        let embed = new Discord.MessageEmbed()
+        .setTitle("__Comment utiliser la commande avatar ?__")
+        .setColor("#22DD56")
+        .setDescription(`${prefix} + avatar **ou** ${prefix} + avatar + @user`)
+        .setImage("https://i.pinimg.com/originals/52/9e/91/529e9132bb46e12200acc199801d454e.jpg")
+        .setFooter("AWAKEN", "https://i.pinimg.com/564x/36/d7/b9/36d7b9067fe47db3d23090abbe6c22aa.jpg")
+        .setTimestamp()
+        message.channel.send(embed)
+    }
+})
+
+//!help clear
+bot.on("message", message =>{
+    if(message.content === prefix + "help clear"){
+        let embed = new Discord.MessageEmbed()
+        .setTitle("__Comment utiliser la commande clear ?__")
+        .setColor("#22DD56")
+        .setDescription(`${prefix} + clear + nombres de messages à supprimer`)
+        .setImage("https://i.pinimg.com/originals/52/9e/91/529e9132bb46e12200acc199801d454e.jpg")
+        .setFooter("AWAKEN", "https://i.pinimg.com/564x/36/d7/b9/36d7b9067fe47db3d23090abbe6c22aa.jpg")
+        .setTimestamp()
+        message.channel.send(embed)
+    }
+})
+
+//!help say
+bot.on("message", message =>{
+    if(message.content === prefix + "help say"){
+        let embed = new Discord.MessageEmbed()
+        .setTitle("__Comment utiliser la commande say ?__")
+        .setColor("#22DD56")
+        .setDescription(`${prefix} + say + message`)
+        .setImage("https://i.pinimg.com/originals/52/9e/91/529e9132bb46e12200acc199801d454e.jpg")
+        .setFooter("AWAKEN", "https://i.pinimg.com/564x/36/d7/b9/36d7b9067fe47db3d23090abbe6c22aa.jpg")
+        .setTimestamp()
+        message.channel.send(embed)
+    }
+})
+
+//!help ban
+bot.on("message", message =>{
+    if(message.content === prefix + "help ban"){
+        if(!message.member.hasPermission("BAN_MEMBERS")) return message.reply("Seul un administrateur peut utiliser cette commande")
+        let embed = new Discord.MessageEmbed()
+        .setTitle("__Comment utiliser la commande ban ?__")
+        .setColor("#22DD56")
+        .setDescription(`${prefix} + ban + utilisateur à ban + raison du ban`)
+        .setImage("https://i.pinimg.com/originals/52/9e/91/529e9132bb46e12200acc199801d454e.jpg")
+        .setFooter("AWAKEN", "https://i.pinimg.com/564x/36/d7/b9/36d7b9067fe47db3d23090abbe6c22aa.jpg")
+        .setTimestamp()
+        message.channel.send(embed)
+    }
+})
+
+//!help mute
+bot.on("message", message =>{
+    if(message.content === prefix + "help mute"){
+        if(!message.member.hasPermission("MUTE_MEMBERS")) return message.reply("Seul un administrateur peut utiliser cette commande")
+        let embed = new Discord.MessageEmbed()
+        .setTitle("__Comment utiliser la commande mute ?__")
+        .setColor("#22DD56")
+        .setDescription(`${prefix} + mute + utilisateur à mute + durée (en chiffre) + raison`)
+        .setImage("https://i.pinimg.com/originals/52/9e/91/529e9132bb46e12200acc199801d454e.jpg")
+        .setFooter("AWAKEN", "https://i.pinimg.com/564x/36/d7/b9/36d7b9067fe47db3d23090abbe6c22aa.jpg")
+        .setTimestamp()
+        message.channel.send(embed)
+    }
+})
+
+//!help kick
+bot.on("message", message =>{
+    if(message.content === prefix + "help kick"){
+        if(!message.member.hasPermission("KICK_MEMBERS")) return message.reply("Seul un administrateur peut utiliser cette commande")
+        let embed = new Discord.MessageEmbed()
+        .setTitle("__Comment utiliser la commande kick ?__")
+        .setColor("#22DD56")
+        .setDescription(`${prefix} + kick + utilisateur à kick + raison du kick`)
+        .setImage("https://i.pinimg.com/originals/52/9e/91/529e9132bb46e12200acc199801d454e.jpg")
+        .setFooter("MLBB-SN", "https://i.pinimg.com/564x/36/d7/b9/36d7b9067fe47db3d23090abbe6c22aa.jpg")
+        .setTimestamp()
+        message.channel.send(embed)
+    }
+})
+
+//!help meme
+bot.on("message", message =>{
+    if(message.content === prefix + "help meme"){
+        let embed = new Discord.MessageEmbed()
+        .setTitle("__Comment utiliser la commande meme ?__")
+        .setColor("#22DD56")
+        .setDescription(`${prefix} + meme`)
+        .setImage("https://i.pinimg.com/originals/52/9e/91/529e9132bb46e12200acc199801d454e.jpg")
+        .setFooter("MLBB-SN", "https://i.pinimg.com/564x/36/d7/b9/36d7b9067fe47db3d23090abbe6c22aa.jpg")
+        .setTimestamp()
+        message.channel.send(embed)
+    }
+})
+
+//!help fuck
+bot.on("message", message =>{
+    if(message.content === prefix + "help fuck"){
+        let NSFW = bot.guilds.cache.get("818459519646564373").channels.cache.get("850711519561908304")
+        let embed = new Discord.MessageEmbed()
+        .setTitle("__Comment utiliser la commande fuck ?__")
+        .setColor("#22DD56")
+        .setDescription(`${prefix} + fuck + utilisateur à fuck\nPS: Le meme n'apparaitra que dans le salon <#` + NSFW + `>. Veuillez donc y utiliser la commande!`)
+        .setImage("https://i.pinimg.com/originals/52/9e/91/529e9132bb46e12200acc199801d454e.jpg")
+        .setFooter("MLBB-SN", "https://i.pinimg.com/564x/36/d7/b9/36d7b9067fe47db3d23090abbe6c22aa.jpg")
+        .setTimestamp()
+        message.channel.send(embed)
+    }
+})
+
+//!help hentai
+bot.on("message", message =>{
+    if(message.content === prefix + "help hentai"){
+        let hentai = bot.guilds.cache.get("818459519646564373").channels.cache.get("850711694136311828")
+        let embed = new Discord.MessageEmbed()
+        .setTitle("__Comment utiliser la commande hentai ?__")
+        .setColor("#22DD56")
+        .setDescription(`${prefix} + hentai\nPS: Le meme n'apparaitra que dans le salon <#` + hentai + `>`)
+        .setImage("https://i.pinimg.com/originals/52/9e/91/529e9132bb46e12200acc199801d454e.jpg")
+        .setFooter("MLBB-SN", "https://i.pinimg.com/564x/36/d7/b9/36d7b9067fe47db3d23090abbe6c22aa.jpg")
+        .setTimestamp()
+        message.channel.send(embed)
+    }
+})
+
+//!ping
+bot.on("message", async message =>{
+    if(message.content === prefix + "ping"){
+        let msg = await message.channel.send("Ping en cours...")
+
+        let embed = new Discord.MessageEmbed()
+        .addField("Votre ping est de  :", Math.floor(msg.createdAt - message.createdAt))
+        .addField("Ma latence est de ", bot.ws.ping)
+        message.delete()
+        message.channel.send(embed)
     }
 })
 
@@ -978,6 +1243,11 @@ bot.on("message", async message =>{
         .setImage("")
         message.channel.send(embed)
     }
+    if(message.content.startsWith(prefix + "Edith")){
+        let embed = new Discord.MessageEmbed()
+        .setImage("")
+        message.channel.send(embed)
+    }
     if(message.content.startsWith(prefix + "Esmeralda")){
         let embed = new Discord.MessageEmbed()
         .setImage("")
@@ -1217,6 +1487,11 @@ bot.on("message", async message =>{
         .setImage("")
         message.channel.send(embed)
     }
+    if(message.content.startsWith(prefix + "Melissa")){
+        let embed = new Discord.MessageEmbed()
+        .setImage("")
+        message.channel.send(embed)
+    }
     if(message.content.startsWith(prefix + "Minotaur")){
         let embed = new Discord.MessageEmbed()
         .setImage("")
@@ -1268,11 +1543,6 @@ bot.on("message", async message =>{
         message.channel.send(embed)
     }
     if(message.content.startsWith(prefix + "Phoveus")){
-        let embed = new Discord.MessageEmbed()
-        .setImage("")
-        message.channel.send(embed)
-    }
-    if(message.content.startsWith(prefix + "Phylax")){
         let embed = new Discord.MessageEmbed()
         .setImage("")
         message.channel.send(embed)
@@ -1362,7 +1632,17 @@ bot.on("message", async message =>{
         .setImage("")
         message.channel.send(embed)
     }
+    if(message.content.startsWith(prefix + "Xavier")){
+        let embed = new Discord.MessageEmbed()
+        .setImage("")
+        message.channel.send(embed)
+    }
     if(message.content.startsWith(prefix + "X.Borg")){
+        let embed = new Discord.MessageEmbed()
+        .setImage("")
+        message.channel.send(embed)
+    }
+    if(message.content.startsWith(prefix + "Yin")){
         let embed = new Discord.MessageEmbed()
         .setImage("")
         message.channel.send(embed)
