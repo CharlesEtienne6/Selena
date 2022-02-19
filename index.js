@@ -42,13 +42,12 @@ bot.on("ready", async message => {
 //commands
 bot.on("message", async message => {
     
-    let content = message.content.split(/ +/);
-    let command = content[0];
-    let args = content.slice(1);
+    const args = message.content.slice(prefix.length).trim().split(/ +/);
+    const command = args.shift().toLowerCase();
 
     if(message.content.startsWith(prefix)) {
         try{
-            let commandFile = require(`./commands/${command.slice(prefix.length).trim()}.js`)
+            let commandFile = require(`./commands/${command}.js`)
             commandFile.execute(bot, message, args);
         } catch (e){
             console.warn(`Erreur avec le handler ${e}`);
