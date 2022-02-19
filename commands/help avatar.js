@@ -1,4 +1,6 @@
 const Discord = require ('discord.js');
+const prefix = "s!";
+
 module.exports.execute = ('message', async(bot, message, args) => {
         let embed = new Discord.MessageEmbed()
         .setTitle("__Comment utiliser la commande avatar ?__")
