@@ -1,7 +1,5 @@
 const Discord = require ('discord.js');
-module.exports = {
-    name: "ping",
-    execute(bot, message, args) {
+module.exports.execute = async(bot, message, args) {
         let msg = await message.channel.send("Ping en cours...")
 
         let embed = new Discord.MessageEmbed()
@@ -9,5 +7,4 @@ module.exports = {
         .addField("Ma latence est de ", bot.ws.ping)
         message.delete()
         message.channel.send(embed)
-    }
 }
