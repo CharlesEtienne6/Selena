@@ -58,7 +58,7 @@ bot.on("message", async message => {
 })
 
 //Expérience
-bot.on("message", async message => {
+/*bot.on("message", async message => {
     let msgauthorid = message.member.user.id
 
     if (message.author.bot) return
@@ -85,7 +85,7 @@ bot.on("message", async message => {
             db.get("Infos_membres").find({ id: msgauthorid }).assign({ id: msgauthorid, xp_p_niveau: userpniveau[3] += 150 }).write()
             lvlup.send(`GG ${message.author} vous venez de passer au niveau ${userniveau[2]}`)
         }
-        /*if(message.content == prefix + "rank") {
+        if(message.content == prefix + "rank") {
             let lvl = userniveau[2];
             let exp = userxp[1];
             let lvlsup = userpniveau[3];
@@ -148,9 +148,9 @@ bot.on("message", async message => {
                     const atta = new Discord.MessageAttachment(data, "rank.png")
                     message.channel.send(atta)
                 })
-        }*/
+        }
     }
-})
+})*/
 
 //!help
 bot.on("message", message =>{
