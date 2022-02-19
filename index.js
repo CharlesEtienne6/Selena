@@ -39,20 +39,6 @@ bot.on("ready", async message => {
     console.log("Je suis prête !")
 })
 
-bot.on("message", async message => {
-    let args = message.content.split(" ");
-    let command = args.shift().toLowerCase();
-
-    if(!command.startsWith(prefix)) return;
-
-    switch(command) {
-        case 'ping':
-            require('./commands/ping.js').execute(bot, message, args);
-        break;
-        default : break;
-    }
-})
-
 //Expérience
 bot.on("message", async message => {
     let msgauthorid = message.member.user.id
@@ -317,6 +303,19 @@ bot.on("message", message =>{
         .setImage("https://i.pinimg.com/originals/52/9e/91/529e9132bb46e12200acc199801d454e.jpg")
         .setFooter("MLBB-SN", "https://i.pinimg.com/564x/36/d7/b9/36d7b9067fe47db3d23090abbe6c22aa.jpg")
         .setTimestamp()
+        message.channel.send(embed)
+    }
+})
+
+//!ping
+bot.on("message", async message =>{
+    if(message.content === prefix + "ping"){
+        let msg = await message.channel.send("Ping en cours...")
+
+        let embed = new Discord.MessageEmbed()
+        .addField("Votre ping est de  :", Math.floor(msg.createdAt - message.createdAt))
+        .addField("Ma latence est de ", bot.ws.ping)
+        message.delete()
         message.channel.send(embed)
     }
 })
