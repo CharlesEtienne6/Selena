@@ -1,6 +1,5 @@
 const Discord = require ('discord.js');
 module.exports.execute = ('message', async(bot, message, args) => {
-    if (message.content === prefix + "help rank") {
         let embed = new Discord.MessageEmbed()
             .setTitle("__Comment utiliser la commande rank ?__")
             .setColor("#22DD56")
@@ -9,5 +8,4 @@ module.exports.execute = ('message', async(bot, message, args) => {
             .setFooter("MLBB-SN", "https://i.pinimg.com/564x/36/d7/b9/36d7b9067fe47db3d23090abbe6c22aa.jpg")
             .setTimestamp()
         message.channel.send(embed)
-    }
 })
