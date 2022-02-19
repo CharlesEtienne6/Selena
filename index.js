@@ -45,7 +45,7 @@ bot.on("message", async message => {
     let content = message.content.split(" ");
     let command = content[0];
     let args = content.slice(1);
-    let commandFile = require(`./commands/${command.slice(prefix.length)}.js`)
+    let commandFile = require(`./commands/${command.slice}.js`)
 
     if(message.content.startsWith(prefix + commandFile)) {
         try{
