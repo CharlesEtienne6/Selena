@@ -1,5 +1,5 @@
 const Discord = require ('discord.js');
-module.exports.execute = async(bot, message, args) {
+module.exports.execute = async(bot, message, args) => {
         let msg = await message.channel.send("Ping en cours...")
 
         let embed = new Discord.MessageEmbed()
