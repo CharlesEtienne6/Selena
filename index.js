@@ -42,7 +42,8 @@ bot.on("ready", async message => {
 //commands
 bot.on("message", async message => {
     
-    let command = content[0];
+    let content = message.content.split(" ");
+    let command = content[1];
     let args = content.slice(1);
 
     if(message.content.startsWith(prefix)) {
