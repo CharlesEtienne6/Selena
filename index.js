@@ -85,7 +85,7 @@ bot.on("message", async message => {
             db.get("Infos_membres").find({ id: msgauthorid }).assign({ id: msgauthorid, xp_p_niveau: userpniveau[3] += 150 }).write()
             lvlup.send(`GG ${message.author} vous venez de passer au niveau ${userniveau[2]}`)
         }
-        if(message.content == prefix + "rank") {
+        /*if(message.content == prefix + "rank") {
             let lvl = userniveau[2];
             let exp = userxp[1];
             let lvlsup = userpniveau[3];
@@ -101,7 +101,7 @@ bot.on("message", async message => {
             message.channel.send(embed)
         }else if(message.content.startsWith(prefix + "rank" + "<@" + + ">")){
 
-        }
+        }*/
 
         /*if (message.content === prefix + "rank") {
             let lvl = userniveau[2];
