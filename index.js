@@ -48,7 +48,7 @@ bot.on("message", async message => {
 
     if(message.content.startsWith(prefix)) {
         try{
-            let commandFile = require(`./commands/${command.split(content).slice(prefix.length)}.js`)
+            let commandFile = require(`./commands/${command.split("").slice(prefix.length)}.js`)
             commandFile.execute(bot, message, args);
         } catch (e){
             console.warn(`Erreur avec le handler ${e}`);
