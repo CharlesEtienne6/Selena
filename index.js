@@ -18,7 +18,7 @@ const { setTimeout } = require("timers");
 const { fstat } = require('fs');
 
 //Lowdb
-const dbdb = new FileSync("db.json");
+const dbdb = require("db.json");
 const db = low(dbdb);
 
 db.defaults({Infos_membres : []}).write()
@@ -764,7 +764,7 @@ bot.on("guildMemberRemove", async member => {
     aurevoir.send(embed)
 })
 
-/*//Restart and Shutdown
+//Restart and Shutdown
 bot.on('message', message => {
     if (message.channel.type != 'text' || message.author.bot)
       return;
@@ -775,7 +775,7 @@ bot.on('message', message => {
   
     switch (command) {
         
-      case 'restart': {
+      /*case 'restart': {
         if (!isBotOwner)
           return;
           message.delete()
@@ -789,7 +789,7 @@ bot.on('message', message => {
             });
         }, 600000)
         break;
-      }
+      }*/
 
       case 'shutdown': {
         if (!isBotOwner)
@@ -802,7 +802,7 @@ bot.on('message', message => {
         break;
       }
     }
-})*/
+})
 
 //Meme
 bot.on("message", async message =>{
