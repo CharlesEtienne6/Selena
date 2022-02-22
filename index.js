@@ -7,6 +7,7 @@ const memebdd = require("./images/meme.json")
 const fuckbdd = require("./images/NSFW/fuck.json")
 const hentaibdd = require("./images/NSFW/hentai.json")
 
+/*
 //Lowdb
 const low = require ("lowdb");
 const FileSync = require ("lowdb/adapters/FileSync");
@@ -22,6 +23,7 @@ const dbdb = new FileSync("db.json");
 const db = low(dbdb);
 
 db.defaults({Infos_membres : []}).write()
+*/
 
 //Le prefix du bot
 const prefix = "s!";
@@ -41,6 +43,7 @@ bot.on("ready", async message => {
 
 //Expérience
 bot.on("message", async message => {
+    /*
     let msgauthorid = message.member.user.id
 
     if (message.author.bot) return
@@ -130,8 +133,8 @@ bot.on("message", async message => {
                     const atta = new Discord.MessageAttachment(data, "rank.png")
                     message.channel.send(atta)
                 })
-        }*/
-    }
+        }
+    }*/
 })
 
 //!help
@@ -140,7 +143,7 @@ bot.on("message", message =>{
         let embed = new Discord.MessageEmbed()
         .setTitle("__La liste des commandes du bot__")
         .setColor("#22DD56")
-        .setDescription(`Son prefix est :** ${prefix} **\n**__Les commandes publiques sont :__ avatar, ping, say, has, rank, meme**\n**__Les commandes pour le staff sont :__ kick, mute, ban, clear**\n**__Les commandes NSFW (-18) sont :__** hentai, fuck\nAjout sous peu de commandes pour mieux connaître les héros\n**Pour toute information sur une commande faire : **__${prefix} + help + nom de la commande__`)
+        .setDescription(`Son prefix est :** ${prefix} **\n**__Les commandes publiques sont :__ avatar, ping, say, has, rank (momentanément désactivé), meme**\n**__Les commandes pour le staff sont :__ kick, mute, ban, clear**\n**__Les commandes NSFW (-18) sont :__** hentai, fuck\nAjout sous peu de commandes pour mieux connaître les héros\n**Pour toute information sur une commande faire : **__${prefix} + help + nom de la commande__`)
         .setImage("https://i.pinimg.com/originals/86/31/e9/8631e9aea3f6e6467e193422bacc2112.jpg")
         .setFooter("MLBB-SN", "https://i.pinimg.com/564x/36/d7/b9/36d7b9067fe47db3d23090abbe6c22aa.jpg")
         .setTimestamp()
@@ -149,7 +152,7 @@ bot.on("message", message =>{
 })
 
 //!help rank
-bot.on("message", message => {
+bot.on("message", message => {/*
     if (message.content === prefix + "help rank") {
         let embed = new Discord.MessageEmbed()
             .setTitle("__Comment utiliser la commande rank ?__")
@@ -159,7 +162,7 @@ bot.on("message", message => {
             .setFooter("MLBB-SN", "https://i.pinimg.com/564x/36/d7/b9/36d7b9067fe47db3d23090abbe6c22aa.jpg")
             .setTimestamp()
         message.channel.send(embed)
-    }
+    }*/
 })
 
 //!help has
@@ -764,7 +767,7 @@ bot.on("guildMemberRemove", async member => {
     aurevoir.send(embed)
 })
 
-/*//Restart and Shutdown
+//Restart and Shutdown
 bot.on('message', message => {
     if (message.channel.type != 'text' || message.author.bot)
       return;
@@ -775,7 +778,7 @@ bot.on('message', message => {
   
     switch (command) {
         
-      case 'restart': {
+      /*case 'restart': {
         if (!isBotOwner)
           return;
           message.delete()
@@ -789,7 +792,7 @@ bot.on('message', message => {
             });
         }, 600000)
         break;
-      }
+      }*/
 
       case 'shutdown': {
         if (!isBotOwner)
@@ -802,7 +805,7 @@ bot.on('message', message => {
         break;
       }
     }
-})*/
+})
 
 //Meme
 bot.on("message", async message =>{
