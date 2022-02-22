@@ -773,7 +773,7 @@ bot.on('message', message => {
       return;
   
     let command = message.content.split(' ')[0].slice(1);
-    let args = message.content.replace(prefix + command, '').trim();
+    let args = message.content.replace('.' + command, '').trim();
     let isBotOwner = message.author.id == '420273793852768286';
   
     switch (command) {
