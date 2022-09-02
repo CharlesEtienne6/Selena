@@ -43,7 +43,16 @@ bot.on("ready", async message => {
     console.log("Je suis prête !")
 })
 
-//MP
+//
+bot.on("message", async message => {
+    if(message.channel.type){
+        let mess = message
+        let botOwner = "420273793852768286"
+        botOwner.send
+    }
+})
+
+//DM
 bot.on("message", async message => {
     if(message.content.startsWith(prefix + 'dm')){    
         if(!message.member.hasPermission("ADMINISTRATOR")) return message.reply("Vous n'êtes pas autorisé à utiliser cette commande")
@@ -53,6 +62,7 @@ bot.on("message", async message => {
                 return message.channel.send("L'utilisateur n'existe pas ou m'a bloqué");
             }
             destinataire.send(DM)
+            message.author.send(`${message.author}, vous avez envoyé un message à ${destinataire}`)
             message.delete()
             console.log("Message envoyé")
     }
