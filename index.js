@@ -28,17 +28,34 @@ db.defaults({Infos_membres : []}).write()
 //Le prefix du bot
 const prefix = "s!";
 
+//let TOKEN = require ("./config.json")
+
 //Connexion du bot
 bot.login(process.env.TOKEN)
 bot.on("ready", async message => {
 
-    let status = ["me faire coder","Mobile Legends","Genshin Impact","être le gémeau de l'ombre","chat avec Karina"]
+    let status = ["me faire coder","Mobile Legends","Genshin Impact","être le gémeau de l'ombre","chat avec Karina","Tower of Fantasy"]
     setInterval(function(){
         let stats = status[Math.floor(Math.random()*status.length)];
         bot.user.setActivity(stats, {type: "PLAYING"})
     }, 100000)
 
     console.log("Je suis prête !")
+})
+
+//MP
+bot.on("message", async message => {
+    if(message.content.startsWith(prefix + 'dm')){    
+        if(!message.member.hasPermission("ADMINISTRATOR")) return message.reply("Vous n'êtes pas autorisé à utiliser cette commande")
+            let DM = message.content.slice(26)
+            let destinataire = message.guild.member(message.mentions.users.first());
+            if (!destinataire){
+                return message.channel.send("L'utilisateur n'existe pas ou m'a bloqué");
+            }
+            destinataire.send(DM)
+            message.delete()
+            console.log("Message envoyé")
+    }
 })
 
 //Expérience
@@ -143,7 +160,7 @@ bot.on("message", message =>{
         let embed = new Discord.MessageEmbed()
         .setTitle("__La liste des commandes du bot__")
         .setColor("#22DD56")
-        .setDescription(`Son prefix est :** ${prefix} **\n**__Les commandes publiques sont :__ avatar, ping, say, has, rank (momentanément désactivé), meme**\n**__Les commandes pour le staff sont :__ kick, mute, ban, clear**\n**__Les commandes NSFW (-18) sont :__** hentai, fuck\nAjout sous peu de commandes pour mieux connaître les héros\n**Pour toute information sur une commande faire : **__${prefix} + help + nom de la commande__`)
+        .setDescription(`Son prefix est :** ${prefix} **\n**__Les commandes publiques sont :__ avatar, ping, say, has, rank (momentanément désactivé), meme**\n**__Les commandes pour le staff sont :__ kick, mute, ban, clear, dm**\n**__Les commandes NSFW (-18) sont :__** hentai, fuck\nAjout sous peu de commandes pour mieux connaître les héros\n**Pour toute information sur une commande faire : **__${prefix} + help + nom de la commande__`)
         .setImage("https://i.pinimg.com/originals/86/31/e9/8631e9aea3f6e6467e193422bacc2112.jpg")
         .setFooter("MLBB-SN", "https://i.pinimg.com/564x/36/d7/b9/36d7b9067fe47db3d23090abbe6c22aa.jpg")
         .setTimestamp()
@@ -151,9 +168,25 @@ bot.on("message", message =>{
     }
 })
 
+//!help dm
+bot.on("message", message => {
+    if (message.content === prefix + "help dm") {
+        let embed = new Discord.MessageEmbed()
+            .setTitle("__Comment utiliser la commande dm ?__")
+            .setColor("#22DD56")
+            .setDescription(`Permet d'envoyer un message privé à un utilisateur en passant par le bot \n${prefix} + dm + @utilisateur (l'utilisateur à qui on veut envoyer le message)\nVous pouvez mettre la suite du message à la ligne pour éviter de vous embrouiller`)
+            .setImage("https://i.pinimg.com/originals/86/31/e9/8631e9aea3f6e6467e193422bacc2112.jpg")
+            .setFooter("MLBB-SN", "https://i.pinimg.com/564x/36/d7/b9/36d7b9067fe47db3d23090abbe6c22aa.jpg")
+            .setTimestamp()
+        message.channel.send(embed)
+    }
+})
+
 //!help rank
-bot.on("message", message => {/*
+bot.on("message", message => {
     if (message.content === prefix + "help rank") {
+        message.channel.send("Commande actuellement désactivé")
+        /*
         let embed = new Discord.MessageEmbed()
             .setTitle("__Comment utiliser la commande rank ?__")
             .setColor("#22DD56")
@@ -162,7 +195,8 @@ bot.on("message", message => {/*
             .setFooter("MLBB-SN", "https://i.pinimg.com/564x/36/d7/b9/36d7b9067fe47db3d23090abbe6c22aa.jpg")
             .setTimestamp()
         message.channel.send(embed)
-    }*/
+        */
+    }
 })
 
 //!help has
@@ -754,6 +788,12 @@ bot.on("guildMemberAdd", async member=> {
     .setFooter("Mobile Legends Bang Bang !\nNous somme désormais " + member.guild.memberCount + " sur le serveur", "https://i.pinimg.com/564x/36/d7/b9/36d7b9067fe47db3d23090abbe6c22aa.jpg")
     .setTimestamp()
     Bienvenu.send(embed)
+
+    let destinataire = member;
+    if (!destinataire){
+        return message.channel.send("L'utilisateur n'existe pas ou m'a bloqué");
+    }
+    destinataire.send(embed)
 })
 
 bot.on("guildMemberRemove", async member => {
@@ -775,6 +815,7 @@ bot.on('message', message => {
     let command = message.content.split(' ')[0].slice(1);
     let args = message.content.replace('.' + command, '').trim();
     let isBotOwner = message.author.id == '420273793852768286';
+    let isBotAdmin = message.author.id == '820215241882730527';
   
     switch (command) {
         
@@ -795,7 +836,7 @@ bot.on('message', message => {
       }*/
 
       case 'shutdown': {
-        if (!isBotOwner)
+        if (!isBotOwner || !isBotAdmin)
           return;
   
         message.channel.send('Shutting down...').then(m => {
