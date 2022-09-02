@@ -4,7 +4,6 @@ const bot = new Discord.Client().setMaxListeners(200);
 
 //Images
 const memebdd = require("./images/meme.json")
-const fuckbdd = require("./images/NSFW/fuck.json")
 const hentaibdd = require("./images/NSFW/hentai.json")
 
 /*
@@ -28,7 +27,7 @@ db.defaults({Infos_membres : []}).write()
 //Le prefix du bot
 const prefix = "s!";
 
-//let TOKEN = require ("./config.json")
+//const TOKEN = require ("./config.json")
 
 //Connexion du bot
 bot.login(process.env.TOKEN)
@@ -55,7 +54,7 @@ bot.on("message", async message => {
 //DM
 bot.on("message", async message => {
     if(message.content.startsWith(prefix + 'dm')){    
-        if(!message.member.hasPermission("ADMINISTRATOR")) return message.reply("Vous n'êtes pas autorisé à utiliser cette commande")
+        if(!message.member.hasPermission("ADMINISTRATOR") || !message.member.hasPermission("MANAGE_MESSAGES")) return message.reply("Vous n'êtes pas autorisé à utiliser cette commande")
             let DM = message.content.slice(26)
             let destinataire = message.guild.member(message.mentions.users.first());
             if (!destinataire){
@@ -170,7 +169,12 @@ bot.on("message", message =>{
         let embed = new Discord.MessageEmbed()
         .setTitle("__La liste des commandes du bot__")
         .setColor("#22DD56")
-        .setDescription(`Son prefix est :** ${prefix} **\n**__Les commandes publiques sont :__ avatar, ping, say, has, rank (momentanément désactivé), meme**\n**__Les commandes pour le staff sont :__ kick, mute, ban, clear, dm**\n**__Les commandes NSFW (-18) sont :__** hentai, fuck\nAjout sous peu de commandes pour mieux connaître les héros\n**Pour toute information sur une commande faire : **__${prefix} + help + nom de la commande__`)
+        .setDescription(`Son prefix est :** ${prefix} **
+                        \n**__Les commandes publiques sont :__ avatar, ping, say, has, rank (momentanément désactivé), meme**
+                        \n**__Les commandes pour le staff sont :__ kick, mute, ban, clear, dm**
+                        \n**__Les commandes NSFW (-18) sont :__** hentai, fuck\nAjout sous peu de commandes pour mieux connaître les héros
+                        \n**Pour toute information sur une commande faire : **__${prefix} + help + nom de la commande__
+                        \n__Exemple__ : s!help say`)
         .setImage("https://i.pinimg.com/originals/86/31/e9/8631e9aea3f6e6467e193422bacc2112.jpg")
         .setFooter("MLBB-SN", "https://i.pinimg.com/564x/36/d7/b9/36d7b9067fe47db3d23090abbe6c22aa.jpg")
         .setTimestamp()
@@ -184,7 +188,8 @@ bot.on("message", message => {
         let embed = new Discord.MessageEmbed()
             .setTitle("__Comment utiliser la commande dm ?__")
             .setColor("#22DD56")
-            .setDescription(`Permet d'envoyer un message privé à un utilisateur en passant par le bot \n${prefix} + dm + @utilisateur (l'utilisateur à qui on veut envoyer le message)\nVous pouvez mettre la suite du message à la ligne pour éviter de vous embrouiller`)
+            .setDescription(`Permet d'envoyer un message privé à un utilisateur en passant par le bot \n${prefix} + dm + @utilisateur (l'utilisateur à qui on veut envoyer le message)\nVous pouvez mettre la suite du message à la ligne pour éviter de vous embrouiller
+                            \n__Exemple__ : s!dm @Selena \n Bonjour`)
             .setImage("https://i.pinimg.com/originals/86/31/e9/8631e9aea3f6e6467e193422bacc2112.jpg")
             .setFooter("MLBB-SN", "https://i.pinimg.com/564x/36/d7/b9/36d7b9067fe47db3d23090abbe6c22aa.jpg")
             .setTimestamp()
@@ -215,7 +220,9 @@ bot.on("message", message => {
         let embed = new Discord.MessageEmbed()
             .setTitle("__Comment utiliser la commande has ?__")
             .setColor("#22DD56")
-            .setDescription(`Donne la liste de tous les utilisateurs possédant le rôle mentionné\n${prefix} + has + @rôle`)
+            .setDescription(`Donne la liste de tous les utilisateurs possédant le rôle mentionné
+                            \n${prefix} + has + @rôle
+                            \n__Exemple__ : s!has @Legende`)
             .setImage("https://i.pinimg.com/originals/86/31/e9/8631e9aea3f6e6467e193422bacc2112.jpg")
             .setFooter("MLBB-SN", "https://i.pinimg.com/564x/36/d7/b9/36d7b9067fe47db3d23090abbe6c22aa.jpg")
             .setTimestamp()
@@ -229,7 +236,8 @@ bot.on("message", message =>{
         let embed = new Discord.MessageEmbed()
         .setTitle("__Comment utiliser la commande avatar ?__")
         .setColor("#22DD56")
-        .setDescription(`${prefix} + avatar **ou** ${prefix} + avatar + @user`)
+        .setDescription(`${prefix} + avatar **ou** ${prefix} + avatar + @user
+                        \n__Exemple__ : s!avatar @zap20k`)
         .setImage("https://i.pinimg.com/originals/52/9e/91/529e9132bb46e12200acc199801d454e.jpg")
         .setFooter("AWAKEN", "https://i.pinimg.com/564x/36/d7/b9/36d7b9067fe47db3d23090abbe6c22aa.jpg")
         .setTimestamp()
@@ -243,7 +251,8 @@ bot.on("message", message =>{
         let embed = new Discord.MessageEmbed()
         .setTitle("__Comment utiliser la commande clear ?__")
         .setColor("#22DD56")
-        .setDescription(`${prefix} + clear + nombres de messages à supprimer`)
+        .setDescription(`${prefix} + clear + nombres de messages à supprimer
+                        \n__Exemple__ : s!clear 10`)
         .setImage("https://i.pinimg.com/originals/52/9e/91/529e9132bb46e12200acc199801d454e.jpg")
         .setFooter("AWAKEN", "https://i.pinimg.com/564x/36/d7/b9/36d7b9067fe47db3d23090abbe6c22aa.jpg")
         .setTimestamp()
@@ -257,7 +266,8 @@ bot.on("message", message =>{
         let embed = new Discord.MessageEmbed()
         .setTitle("__Comment utiliser la commande say ?__")
         .setColor("#22DD56")
-        .setDescription(`${prefix} + say + message`)
+        .setDescription(`${prefix} + say + message
+                        \n__Exemple__ : s!say Comment vas-tu ?`)
         .setImage("https://i.pinimg.com/originals/52/9e/91/529e9132bb46e12200acc199801d454e.jpg")
         .setFooter("AWAKEN", "https://i.pinimg.com/564x/36/d7/b9/36d7b9067fe47db3d23090abbe6c22aa.jpg")
         .setTimestamp()
@@ -272,7 +282,8 @@ bot.on("message", message =>{
         let embed = new Discord.MessageEmbed()
         .setTitle("__Comment utiliser la commande ban ?__")
         .setColor("#22DD56")
-        .setDescription(`${prefix} + ban + utilisateur à ban + raison du ban`)
+        .setDescription(`${prefix} + ban + utilisateur à ban + raison du ban
+                        \n__Exemple__ : s!ban @Estes test`)
         .setImage("https://i.pinimg.com/originals/52/9e/91/529e9132bb46e12200acc199801d454e.jpg")
         .setFooter("AWAKEN", "https://i.pinimg.com/564x/36/d7/b9/36d7b9067fe47db3d23090abbe6c22aa.jpg")
         .setTimestamp()
@@ -287,7 +298,8 @@ bot.on("message", message =>{
         let embed = new Discord.MessageEmbed()
         .setTitle("__Comment utiliser la commande mute ?__")
         .setColor("#22DD56")
-        .setDescription(`${prefix} + mute + utilisateur à mute + durée (en chiffre) + raison`)
+        .setDescription(`${prefix} + mute + utilisateur à mute + durée (en chiffre) + raison
+                        \n__Exemple__ : s!mute @Sombre Ghost 12 pour le fun`)
         .setImage("https://i.pinimg.com/originals/52/9e/91/529e9132bb46e12200acc199801d454e.jpg")
         .setFooter("AWAKEN", "https://i.pinimg.com/564x/36/d7/b9/36d7b9067fe47db3d23090abbe6c22aa.jpg")
         .setTimestamp()
@@ -302,7 +314,8 @@ bot.on("message", message =>{
         let embed = new Discord.MessageEmbed()
         .setTitle("__Comment utiliser la commande kick ?__")
         .setColor("#22DD56")
-        .setDescription(`${prefix} + kick + utilisateur à kick + raison du kick`)
+        .setDescription(`${prefix} + kick + utilisateur à kick + raison du kick
+                        \n__Exemple__ : s!kick @Ragnarok Raid`)
         .setImage("https://i.pinimg.com/originals/52/9e/91/529e9132bb46e12200acc199801d454e.jpg")
         .setFooter("MLBB-SN", "https://i.pinimg.com/564x/36/d7/b9/36d7b9067fe47db3d23090abbe6c22aa.jpg")
         .setTimestamp()
@@ -316,7 +329,8 @@ bot.on("message", message =>{
         let embed = new Discord.MessageEmbed()
         .setTitle("__Comment utiliser la commande meme ?__")
         .setColor("#22DD56")
-        .setDescription(`${prefix} + meme`)
+        .setDescription(`${prefix} + meme
+                        \n__Exemple__ : s!meme`)
         .setImage("https://i.pinimg.com/originals/52/9e/91/529e9132bb46e12200acc199801d454e.jpg")
         .setFooter("MLBB-SN", "https://i.pinimg.com/564x/36/d7/b9/36d7b9067fe47db3d23090abbe6c22aa.jpg")
         .setTimestamp()
@@ -331,7 +345,9 @@ bot.on("message", message =>{
         let embed = new Discord.MessageEmbed()
         .setTitle("__Comment utiliser la commande fuck ?__")
         .setColor("#22DD56")
-        .setDescription(`${prefix} + fuck + utilisateur à fuck\nPS: Le meme n'apparaitra que dans le salon <#` + NSFW + `>. Veuillez donc y utiliser la commande!`)
+        .setDescription(`${prefix} + fuck + utilisateur à fuck
+                        \nPS: Le meme n'apparaitra que dans le salon <#` + NSFW + `>. Veuillez donc y utiliser la commande!
+                        \n__Exemple__ : s!fuck @lamine13`)
         .setImage("https://i.pinimg.com/originals/52/9e/91/529e9132bb46e12200acc199801d454e.jpg")
         .setFooter("MLBB-SN", "https://i.pinimg.com/564x/36/d7/b9/36d7b9067fe47db3d23090abbe6c22aa.jpg")
         .setTimestamp()
@@ -346,7 +362,8 @@ bot.on("message", message =>{
         let embed = new Discord.MessageEmbed()
         .setTitle("__Comment utiliser la commande hentai ?__")
         .setColor("#22DD56")
-        .setDescription(`${prefix} + hentai\nPS: Le meme n'apparaitra que dans le salon <#` + hentai + `>`)
+        .setDescription(`${prefix} + hentai\nPS: Le meme n'apparaitra que dans le salon <#` + hentai + `>
+                        \n__Exemple__ : s!hentai`)
         .setImage("https://i.pinimg.com/originals/52/9e/91/529e9132bb46e12200acc199801d454e.jpg")
         .setFooter("MLBB-SN", "https://i.pinimg.com/564x/36/d7/b9/36d7b9067fe47db3d23090abbe6c22aa.jpg")
         .setTimestamp()
@@ -872,20 +889,6 @@ bot.on("message", async message =>{
 })
 
 //NSFW
-//Fuck
-bot.on("message", async message =>{
-    if(message.content.startsWith(prefix + "fuck")){
-        let Fuck = bot.guilds.cache.get("818459519646564373").channels.cache.get("850711519561908304")
-        if(message.member.user.bot) return
-        let User = message.guild.member(message.mentions.users.first())
-        var counter = 0;
-        fuckbdd.forEach(file => {
-            counter++
-        })
-        random = Math.floor(Math.random() * counter)
-        Fuck.send("<@" + message.author.id + "> is fucking <@"+ User + ">",{ files: [`${fuckbdd[random]}`]})
-    }
-})
 //Hentai
 bot.on("message", async message =>{
     if(message.content.startsWith(prefix + "hentai")){
@@ -917,7 +920,7 @@ bot.on("message", async message => {
             .setColor("#7000D0")
             .setThumbnail("https://zolotoy-region.ru/wp-content/uploads/ml-696x327.jpg")
             .setTimestamp()
-            .setFooter("Mobile Legends Bang Bang SN", "https://zolotoy-region.ru/wp-content/uploads/ml-696x327.jpg")
+            .setFooter("Mobile Legends Bang Bang SN", "https://i.pinimg.com/564x/36/d7/b9/36d7b9067fe47db3d23090abbe6c22aa.jpg")
         message.channel.send(embed)
     }
 })
@@ -937,7 +940,7 @@ bot.on("message", async message => {
             .setColor("#ffba00")
             .setThumbnail("https://zolotoy-region.ru/wp-content/uploads/ml-696x327.jpg")
             .setTimestamp()
-            .setFooter("Mobile Legends Bang Bang SN", "https://zolotoy-region.ru/wp-content/uploads/ml-696x327.jpg")
+            .setFooter("Mobile Legends Bang Bang SN", "https://i.pinimg.com/564x/36/d7/b9/36d7b9067fe47db3d23090abbe6c22aa.jpg")
         message.channel.send(embed)
     }
 })
@@ -957,7 +960,7 @@ bot.on("message", async message => {
             .setColor("#fee401")
             .setThumbnail("https://zolotoy-region.ru/wp-content/uploads/ml-696x327.jpg")
             .setTimestamp()
-            .setFooter("Mobile Legends Bang Bang SN", "https://zolotoy-region.ru/wp-content/uploads/ml-696x327.jpg")
+            .setFooter("Mobile Legends Bang Bang SN", "https://i.pinimg.com/564x/36/d7/b9/36d7b9067fe47db3d23090abbe6c22aa.jpg")
         message.channel.send(embed)
     }
 })
@@ -977,7 +980,7 @@ bot.on("message", async message => {
             .setColor("#4eff00")
             .setThumbnail("https://zolotoy-region.ru/wp-content/uploads/ml-696x327.jpg")
             .setTimestamp()
-            .setFooter("Mobile Legends Bang Bang SN", "https://zolotoy-region.ru/wp-content/uploads/ml-696x327.jpg")
+            .setFooter("Mobile Legends Bang Bang SN", "https://i.pinimg.com/564x/36/d7/b9/36d7b9067fe47db3d23090abbe6c22aa.jpg")
         message.channel.send(embed)
     }
 })
@@ -997,7 +1000,7 @@ bot.on("message", async message => {
             .setColor("#718e8c")
             .setThumbnail("https://zolotoy-region.ru/wp-content/uploads/ml-696x327.jpg")
             .setTimestamp()
-            .setFooter("Mobile Legends Bang Bang SN", "https://zolotoy-region.ru/wp-content/uploads/ml-696x327.jpg")
+            .setFooter("Mobile Legends Bang Bang SN", "https://i.pinimg.com/564x/36/d7/b9/36d7b9067fe47db3d23090abbe6c22aa.jpg")
         message.channel.send(embed)
     }
 })
@@ -1017,7 +1020,7 @@ bot.on("message", async message => {
             .setColor("#c87437")
             .setThumbnail("https://zolotoy-region.ru/wp-content/uploads/ml-696x327.jpg")
             .setTimestamp()
-            .setFooter("Mobile Legends Bang Bang SN", "https://zolotoy-region.ru/wp-content/uploads/ml-696x327.jpg")
+            .setFooter("Mobile Legends Bang Bang SN", "https://i.pinimg.com/564x/36/d7/b9/36d7b9067fe47db3d23090abbe6c22aa.jpg")
         message.channel.send(embed)
     }
 })
@@ -1037,7 +1040,7 @@ bot.on("message", async message => {
             .setColor("#c87437")
             .setThumbnail("https://zolotoy-region.ru/wp-content/uploads/ml-696x327.jpg")
             .setTimestamp()
-            .setFooter("Mobile Legends Bang Bang SN", "https://zolotoy-region.ru/wp-content/uploads/ml-696x327.jpg")
+            .setFooter("Mobile Legends Bang Bang SN", "https://i.pinimg.com/564x/36/d7/b9/36d7b9067fe47db3d23090abbe6c22aa.jpg")
         message.channel.send(embed)
     }
 })
@@ -1057,7 +1060,7 @@ bot.on("message", async message => {
             .setColor("#d10008")
             .setThumbnail("https://zolotoy-region.ru/wp-content/uploads/ml-696x327.jpg")
             .setTimestamp()
-            .setFooter("Mobile Legends Bang Bang SN", "https://zolotoy-region.ru/wp-content/uploads/ml-696x327.jpg")
+            .setFooter("Mobile Legends Bang Bang SN", "https://i.pinimg.com/564x/36/d7/b9/36d7b9067fe47db3d23090abbe6c22aa.jpg")
         message.channel.send(embed)
     }
 })
@@ -1077,7 +1080,7 @@ bot.on("message", async message => {
             .setColor("#2200ff")
             .setThumbnail("https://zolotoy-region.ru/wp-content/uploads/ml-696x327.jpg")
             .setTimestamp()
-            .setFooter("Mobile Legends Bang Bang SN", "https://zolotoy-region.ru/wp-content/uploads/ml-696x327.jpg")
+            .setFooter("Mobile Legends Bang Bang SN", "https://i.pinimg.com/564x/36/d7/b9/36d7b9067fe47db3d23090abbe6c22aa.jpg")
         message.channel.send(embed)
     }
 })
@@ -1097,7 +1100,7 @@ bot.on("message", async message => {
             .setColor("#7000D0")
             .setThumbnail("https://zolotoy-region.ru/wp-content/uploads/ml-696x327.jpg")
             .setTimestamp()
-            .setFooter("Mobile Legends Bang Bang SN", "https://zolotoy-region.ru/wp-content/uploads/ml-696x327.jpg")
+            .setFooter("Mobile Legends Bang Bang SN", "https://i.pinimg.com/564x/36/d7/b9/36d7b9067fe47db3d23090abbe6c22aa.jpg")
         message.channel.send(embed)
     }
 })
@@ -1117,7 +1120,7 @@ bot.on("message", async message => {
             .setColor("#1edce1")
             .setThumbnail("https://zolotoy-region.ru/wp-content/uploads/ml-696x327.jpg")
             .setTimestamp()
-            .setFooter("Mobile Legends Bang Bang SN", "https://zolotoy-region.ru/wp-content/uploads/ml-696x327.jpg")
+            .setFooter("Mobile Legends Bang Bang SN", "https://i.pinimg.com/564x/36/d7/b9/36d7b9067fe47db3d23090abbe6c22aa.jpg")
         message.channel.send(embed)
     }
 })
@@ -1137,7 +1140,7 @@ bot.on("message", async message => {
             .setColor("#fee401")
             .setThumbnail("https://zolotoy-region.ru/wp-content/uploads/ml-696x327.jpg")
             .setTimestamp()
-            .setFooter("Mobile Legends Bang Bang SN", "https://zolotoy-region.ru/wp-content/uploads/ml-696x327.jpg")
+            .setFooter("Mobile Legends Bang Bang SN", "https://i.pinimg.com/564x/36/d7/b9/36d7b9067fe47db3d23090abbe6c22aa.jpg")
         message.channel.send(embed)
     }
 })
