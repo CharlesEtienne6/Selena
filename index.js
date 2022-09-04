@@ -27,10 +27,10 @@ db.defaults({Infos_membres : []}).write()
 //Le prefix du bot
 const prefix = "s!";
 
-//const TOKEN = require ("./config.json")
+const TOKEN = require ("./config.json")
 
 //Connexion du bot
-bot.login(process.env.TOKEN)
+bot.login(TOKEN.token)
 bot.on("ready", async message => {
 
     let status = ["me faire coder","Mobile Legends","Genshin Impact","être le gémeau de l'ombre","chat avec Karina","Tower of Fantasy"]
@@ -42,12 +42,65 @@ bot.on("ready", async message => {
     console.log("Je suis prête !")
 })
 
-//
+//Squad
 bot.on("message", async message => {
-    if(message.channel.type){
-        let mess = message
-        let botOwner = "420273793852768286"
-        botOwner.send
+    //let chefTSP = ""
+    //let chefTSK = ""
+    //let chefTLB = ""
+    let chef黒 = "1011638143264493608"
+    let chefPAIN = "420273793852768286"
+    let User = message.guild.member(message.mentions.users.first())
+    if(message.content.startsWith(prefix + "add")){
+        /*if(message.author.id == chefTSP){
+            User.roles.add("1015714682587324598")
+            message.reply(`${User} a été ajouté comme membre de votre squad !`)
+        }*/
+        /*if(message.author.id == chefTSK){
+            User.roles.add("1015714339602313216")
+            message.reply(`${User} a été ajouté comme membre de votre squad !`)
+        }*/
+        /*if(message.author.id == chefTLB){
+            User.roles.add("1015714425216438282")
+            message.reply(`${User} a été ajouté comme membre de votre squad !`)
+        }*/
+        if(message.author.id == chefPAIN){
+            User.roles.add("1015708644542775427")
+            message.reply(`${User} a été ajouté comme membre de votre squad !`)
+        }else{
+            return message.reply("Vous n'êtes pas autorisé à utiliser cette commande !")
+        }
+        if(message.author.id == chef黒){
+            User.roles.add("1015716643525107783")
+            message.reply(`${User} a été ajouté comme membre de votre squad !`)
+        }else{
+            return message.reply("Vous n'êtes pas autorisé à utiliser cette commande !")
+        }
+    }
+    if(message.content.startsWith(prefix + "remove")){
+        /*if(message.author.id == chefTSP){
+            User.roles.remove("1015714682587324598")
+            message.reply(`${User} a été retiré de votre squad !`)
+        }*/
+        /*if(message.author.id == chefTSK){
+            User.roles.remove("1015714339602313216")
+            message.reply(`${User} a été retiré de votre squad !`)
+        }*/
+        /*if(message.author.id == chefTLB){
+            User.roles.remove("1015714425216438282")
+            message.reply(`${User} a été retiré de votre squad !`)
+        }*/
+        if(message.author.id == chefPAIN){
+            User.roles.remove("1015708644542775427")
+            message.reply(`${User} a été retiré de votre squad !`)
+        }else{
+            return message.reply("Vous n'êtes pas autorisé à utiliser cette commande !")
+        }
+        if(message.author.id == chef黒){
+            User.roles.remove("1015716643525107783")
+            message.reply(`${User} a été retiré de votre squad !`)
+        }else{
+            return message.reply("Vous n'êtes pas autorisé à utiliser cette commande !")
+        }
     }
 })
 
@@ -390,13 +443,13 @@ bot.on('message', message =>{
         message.delete()
         let embed = new Discord.MessageEmbed()
         .setDescription(`Voici votre avatar : <@${message.author.id}>`)
-        .setImage(message.author.displayAvatarURL({format: 'jpeg'}))
+        .setImage(message.author.displayAvatarURL({format: 'jpeg', size: 4096, dynamic: true}))
         message.channel.send(embed)
     }else if(message.content.startsWith(prefix + "avatar")){
         message.delete()
         let embed = new Discord.MessageEmbed()
         .setDescription(`Voici l'avatar de : ${message.mentions.users.first()}`)
-        .setImage(message.mentions.users.first().displayAvatarURL({format: 'jpeg'}))
+        .setImage(message.mentions.users.first().displayAvatarURL({format: 'jpeg', size: 4096, dynamic: true}))
         message.channel.send(embed)
     }
 })
