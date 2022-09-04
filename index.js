@@ -27,10 +27,8 @@ db.defaults({Infos_membres : []}).write()
 //Le prefix du bot
 const prefix = "s!";
 
-const TOKEN = require ("./config.json")
-
 //Connexion du bot
-bot.login(TOKEN.token)
+bot.login(process.env.TOKEN)
 bot.on("ready", async message => {
 
     let status = ["me faire coder","Mobile Legends","Genshin Impact","être le gémeau de l'ombre","chat avec Karina","Tower of Fantasy"]
