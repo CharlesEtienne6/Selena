@@ -1,6 +1,7 @@
 //Discord.js
 const Discord = require ('discord.js');
 const bot = new Discord.Client().setMaxListeners(200);
+const token = require("./config.json")
 
 //Images
 const memebdd = require("./images/meme.json")
@@ -28,7 +29,7 @@ db.defaults({Infos_membres : []}).write()
 const prefix = "s!";
 
 //Connexion du bot
-bot.login(process.env.TOKEN)
+bot.login(token.TOKEN)
 bot.on("ready", async message => {
 
     let status = ["me faire coder","Mobile Legends","Genshin Impact","être le gémeau de l'ombre","chat avec Karina","Tower of Fantasy"]
@@ -42,17 +43,17 @@ bot.on("ready", async message => {
 
 //Squad
 bot.on("message", async message => {
-    //let chefTSP = ""
+    let chefTSP = "502586280291336212"
     //let chefTSK = ""
     //let chefTLB = ""
     let chef黒 = "1011638143264493608"
     let chefPAIN = "420273793852768286"
     let User = message.guild.member(message.mentions.users.first())
     if(message.content.startsWith(prefix + "add")){
-        /*if(message.author.id == chefTSP){
+        if(message.author.id == chefTSP){
             User.roles.add("1015714682587324598")
             message.reply(`${User} a été ajouté comme membre de votre squad !`)
-        }*/
+        }
         /*if(message.author.id == chefTSK){
             User.roles.add("1015714339602313216")
             message.reply(`${User} a été ajouté comme membre de votre squad !`)
@@ -75,10 +76,10 @@ bot.on("message", async message => {
         }
     }
     if(message.content.startsWith(prefix + "remove")){
-        /*if(message.author.id == chefTSP){
+        if(message.author.id == chefTSP){
             User.roles.remove("1015714682587324598")
             message.reply(`${User} a été retiré de votre squad !`)
-        }*/
+        }
         /*if(message.author.id == chefTSK){
             User.roles.remove("1015714339602313216")
             message.reply(`${User} a été retiré de votre squad !`)
@@ -867,11 +868,11 @@ bot.on("guildMemberAdd", async member=> {
     .setTimestamp()
     Bienvenu.send(embed)
 
-    let destinataire = member;
+    /*let destinataire = member;
     if (!destinataire){
         return message.channel.send("L'utilisateur n'existe pas ou m'a bloqué");
     }
-    destinataire.send(embed)
+    destinataire.send(embed)*/
 })
 
 bot.on("guildMemberRemove", async member => {
