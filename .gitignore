@@ -125,3 +125,6 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Secrets (Discord token, OpenAI key) - copy config.example.json to config.json
+config.json

@@ -1,0 +1,6 @@
+{
+    "token": "YOUR_DISCORD_BOT_TOKEN",
+    "clientId": "YOUR_APPLICATION_ID",
+    "guildId": "YOUR_GUILD_ID",
+    "gpt3API": "YOUR_OPENAI_API_KEY"
+}
