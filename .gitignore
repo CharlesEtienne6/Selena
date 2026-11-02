@@ -128,3 +128,6 @@ dist
 
 # Secrets (Discord token, OpenAI key) - copy config.example.json to config.json
 config.json
+
+# Base de données du bot (XP des membres) - reste en local
+db.json
